@@ -1,18 +1,18 @@
 package me.refluxo.module.util;
 
+import eu.thesimplecloud.api.CloudAPI;
 import org.bukkit.Bukkit;
 
 public class Watcher implements ServerInfo {
 
     @Override
     public String getServerName() {
-        return "Refluxo";
+        return CloudAPI.getInstance().getThisSidesName();
     }
 
     @Override
     public double getSystemLag() {
         long l = System.currentTimeMillis();
-        Bukkit.getServer().getConsoleSender().sendMessage("§a§lGot System Lag");
         return (System.currentTimeMillis() - l / 1000);
     }
 
